@@ -56,7 +56,7 @@ class MakeRepository extends Command
             ? 'class'
             : 'interface';
 
-        return $this->files->get(__DIR__ . '/Repository.' . $type . '.stub');
+        return $this->files->get(__DIR__ . '/Stubs/Repository.' . $type . '.stub');
     }
 
     /**
@@ -70,7 +70,7 @@ class MakeRepository extends Command
             ? 'class'
             : 'interface';
 
-        return $this->files->get(__DIR__ . '/Repository.namespaced.' . $type . '.stub');
+        return $this->files->get(__DIR__ . '/Stubs/Repository.namespaced.' . $type . '.stub');
     }
 
     /**
