@@ -56,7 +56,7 @@ class MakeRepository extends \App\Console\Commands\Command
             ? 'class'
             : 'interface';
 
-        return $this->files->get(base_path('app/Console/Commands/Stubs') . '/Repository.' . $type . '.stub');
+        return $this->files->get(__DIR__ . '/Repository.' . $type . '.stub');
     }
 
     /**
@@ -70,7 +70,7 @@ class MakeRepository extends \App\Console\Commands\Command
             ? 'class'
             : 'interface';
 
-        return $this->files->get(base_path('app/Console/Commands/Stubs') . '/Repository.namespaced.' . $type . '.stub');
+        return $this->files->get(__DIR__ . '/Repository.namespaced.' . $type . '.stub');
     }
 
     /**
