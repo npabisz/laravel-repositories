@@ -1,0 +1,7 @@
+<?php namespace DummyNamespace;
+
+use DummyRepositoryParentNamespace;
+
+interface DummyInterface extends DummyRepositoryParentInterface
+{
+}
