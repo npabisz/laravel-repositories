@@ -1,0 +1,26 @@
+<?php namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+use Yorki\Repositories\Contracts\ModelContract;
+
+class DummyClass extends Model implements ModelContract
+{
+    /**
+     * @var string
+     **/
+    protected $table = 'DummyTable';
+
+    /**
+     * @var array
+     **/
+    protected $fillable = [
+        DummyFillable
+    ];
+
+    /**
+     * @var array
+     **/
+    protected $casts = [
+        DummyCasts
+    ];
+}
