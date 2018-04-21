@@ -1,4 +1,4 @@
-<?php namespace Yorkii\Repositories\Console\Commands;
+<?php namespace Yorki\Repositories\Console\Commands;
 
 use \Illuminate\Console\Command;
 use \Illuminate\Filesystem\Filesystem;

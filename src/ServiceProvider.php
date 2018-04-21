@@ -1,6 +1,6 @@
-<?php namespace Yorkii\Repositories;
+<?php namespace Yorki\Repositories;
 
-use Yorkii\Repositories\Console\Commands\MakeRepository;
+use Yorki\Repositories\Console\Commands\MakeRepository;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
