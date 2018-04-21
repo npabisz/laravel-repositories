@@ -1,9 +1,11 @@
 <?php namespace DummyNamespace;
 
+use Yorki\Repositories\Repository;
+use Yorki\Repositories\Contracts\RepositoryContract;
 use DummyModelNamespace;
 use DummyInterfaceNamespace;
 
-class DummyClass extends DummyRepositoryParentClass implements DummyInterface
+class DummyClass extends Repository implements RepositoryContract
 {
     /**
     * @return DummyModelClass

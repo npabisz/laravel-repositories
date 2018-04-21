@@ -1,5 +1,7 @@
 <?php namespace DummyNamespace;
 
-interface DummyInterface extends DummyRepositoryParentInterface
+use Yorki\Repositories\Contracts\RepositoryContract;
+
+interface DummyInterface extends RepositoryContract
 {
 }
