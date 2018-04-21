@@ -3,7 +3,7 @@
 use \Illuminate\Console\Command;
 use \Illuminate\Filesystem\Filesystem;
 
-class MakeRepository extends \App\Console\Commands\Command
+class MakeRepository extends Command
 {
     const RELATIVE_MODEL_NAMESPACE = 'App\Models';
     const REPOSITORIES_NAMESPACE = 'App\Repositories';
