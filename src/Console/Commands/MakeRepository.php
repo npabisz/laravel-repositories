@@ -26,7 +26,7 @@ class MakeRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'make:repository {model}';
+    protected $signature = 'make:repository {--model-namespace=}';
 
     /**
      * The console command description.
@@ -116,7 +116,13 @@ class MakeRepository extends Command
         $namespace = implode('\\', $namespace);
 
         if ($full) {
-            return self::RELATIVE_MODEL_NAMESPACE . ($namespace ? '\\' : '') . $namespace;
+            $modelNamespace = self::RELATIVE_MODEL_NAMESPACE;
+
+            if ($this->option('model-namespace')) {
+                $modelNamespace = $this->option('model-namespace');
+            }
+
+            return $modelNamespace . ($namespace ? '\\' : '') . $namespace;
         }
 
         return $namespace;
