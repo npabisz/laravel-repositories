@@ -9,7 +9,9 @@ class MakeRepository extends Command
     const REPOSITORIES_NAMESPACE = 'App\Repositories';
     const REPOSITORIES_CONTRACTS_NAMESPACE = 'App\Repositories\Contracts';
     const REPOSITORY_PARENT_CLASS = 'Repository';
+    const REPOSITORY_PARENT_CLASS_NAMESPACE = 'Yorki\Repositories';
     const REPOSITORY_PARENT_INTERFACE = 'RepositoryContract';
+    const REPOSITORY_PARENT_INTERFACE_NAMESPACE = 'Yorki\Repositories\Contracts';
 
     /**
      * The filesystem instance.
@@ -205,7 +207,7 @@ class MakeRepository extends Command
             self::REPOSITORY_PARENT_CLASS,
             $this->getRepositoryInterfaceNamespace(),
             $this->getRepositoryInterface(),
-            self::REPOSITORIES_NAMESPACE . '\\' . self::REPOSITORY_PARENT_CLASS,
+            self::REPOSITORY_PARENT_CLASS_NAMESPACE . '\\' . self::REPOSITORY_PARENT_CLASS,
         ], $this->getNamespacedStub(true));
     }
 
@@ -223,7 +225,7 @@ class MakeRepository extends Command
             $this->getRepositoryInterfaceNamespace(true, false),
             self::REPOSITORY_PARENT_INTERFACE,
             $this->getRepositoryInterface(),
-            self::REPOSITORIES_CONTRACTS_NAMESPACE . '\\' . self::REPOSITORY_PARENT_INTERFACE,
+            self::REPOSITORY_PARENT_INTERFACE_NAMESPACE . '\\' . self::REPOSITORY_PARENT_INTERFACE,
         ], $this->getNamespacedStub(false));
     }
 
