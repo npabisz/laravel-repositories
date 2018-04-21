@@ -152,7 +152,7 @@ class MakeModel extends Command
             return;
         }
 
-        if (class_exists($this->getNamespace() . '\\' . $this->getModel())) {
+        if (file_exists($this->getDirectory() . '/' . $this->getModel() . '.php')) {
             $this->output->error('Model ' . $this->getModel() . ' already exists');
 
             return;
