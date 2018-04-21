@@ -135,6 +135,10 @@ class MakeMigration extends Command
                     $method = 'decimal';
                     $arguments = ', 16, 8';
                     break;
+                case 'bool':
+                case 'boolean':
+                    $method = 'boolean';
+                    break;
                 default:
                     $method = 'string';
                     break;
