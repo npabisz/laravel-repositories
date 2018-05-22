@@ -346,9 +346,9 @@ class MakeRepository extends Command
                     return;
                 }
 
-                $resolver = "\t\t\$this->app->bind('" . $this->getRepositoryInterfaceNamespace() . "', function (\$app) {";
-                $resolver .= "\t\t\treturn new " . $this->getRepositoryClassNamespace() . "(" . $this->getModelNamespace() . "::class);";
-                $resolver .= "\t\t});";
+                $resolver = "\t\t\$this->app->bind('" . $this->getRepositoryInterfaceNamespace() . "', function (\$app) {" . PHP_EOL;
+                $resolver .= "\t\t\treturn new \\" . $this->getRepositoryClassNamespace() . "(\\" . $this->getModelNamespace() . "::class);" . PHP_EOL;
+                $resolver .= "\t\t});" . PHP_EOL;
 
                 $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
                 $serviceProviderRest = substr($serviceProvider, $methodBegins);
