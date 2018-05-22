@@ -328,7 +328,10 @@ class MakeRepository extends Command
 
         if ($this->confirm('Generate entry in service provider?', false)) {
             if (!file_exists(base_path('app/Providers/RepositoryServiceProvider.php'))) {
-                $this->files->makeDirectory(base_path('app/Providers'), 0755, true);
+                if (!file_exists(base_path('app/Providers'))){
+                    $this->files->makeDirectory(base_path('app/Providers'), 0755, true);
+                }
+
                 $this->files->put(base_path('app/Providers/RepositoryServiceProvider.php'), $this->files->get(__DIR__ . '/Stubs/RepositoryServiceProvider.class.stub'));
             }
 
