@@ -287,6 +287,20 @@ class MakeRepository extends Command
     /**
      * @return string
      */
+    protected function getPopulatedFacadeStub()
+    {
+        return str_replace([
+            'DummyFacade',
+            'DummyService',
+        ], [
+            $this->getModelClass() . 'Facade',
+            $this->getModelClass() . 'Service',
+        ], $this->files->get(__DIR__ . '/Stubs/RepositoryFacade.class.stub'));
+    }
+
+    /**
+     * @return string
+     */
     protected function getRepositoryClassDirectory()
     {
         return dirname(base_path(lcfirst(str_replace('\\', '/', $this->getRepositoryClassNamespace()))));
@@ -351,6 +365,15 @@ class MakeRepository extends Command
             $this->getPopulatedServiceStub()
         );
 
+        if (!file_exists(base_path('app/Facades'))){
+            $this->files->makeDirectory(base_path('app/Facades'), 0755, true);
+        }
+
+        $this->files->put(
+            base_path('app/Facades/' . $this->getModelClass() . 'Facade.php'),
+            $this->getPopulatedFacadeStub()
+        );
+
         if ($this->confirm('Generate entry in service provider?', false)) {
             if (!file_exists(base_path('app/Providers/RepositoryServiceProvider.php'))) {
                 if (!file_exists(base_path('app/Providers'))){
@@ -395,5 +418,6 @@ class MakeRepository extends Command
 
         $this->output->success('Repository for ' . $this->getModelNamespace(false) . ' has been created');
         $this->output->success('Remember to add App\Providers\RepositoryServiceProvider::class to providers array in your config/app.php file');
+        $this->output->success('Remember to add \'' . $this->getModelClass() . '\' => \'App\Facades\\' . $this->getModelClass() . 'Facade\' to aliases array in your config/app.php file');
     }
 }
