@@ -365,15 +365,6 @@ class MakeRepository extends Command
             $this->getPopulatedServiceStub()
         );
 
-        if (!file_exists(base_path('app/Facades'))){
-            $this->files->makeDirectory(base_path('app/Facades'), 0755, true);
-        }
-
-        $this->files->put(
-            base_path('app/Facades/' . $this->getModelClass() . 'Facade.php'),
-            $this->getPopulatedFacadeStub()
-        );
-
         if ($this->confirm('Generate entry in service provider?', false)) {
             if (!file_exists(base_path('app/Providers/RepositoryServiceProvider.php'))) {
                 if (!file_exists(base_path('app/Providers'))){
@@ -398,7 +389,7 @@ class MakeRepository extends Command
                 $resolver .= "\t\t\treturn new \\" . $this->getRepositoryClassNamespace() . "(\\" . $this->getModelNamespace() . "::class);" . PHP_EOL;
                 $resolver .= "\t\t});" . PHP_EOL;
 
-                $resolver .= "\t\t\$this->app->bind('" . $this->getModelClass() . "Service', function (\$app) {" . PHP_EOL;
+                $resolver .= "\t\t\$this->app->bind('App\Services\\" . $this->getModelClass() . "Service', function (\$app) {" . PHP_EOL;
                 $resolver .= "\t\t\treturn new \App\Services\\" . $this->getModelClass() . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
                 $resolver .= "\t\t});" . PHP_EOL;
 
@@ -418,6 +409,5 @@ class MakeRepository extends Command
 
         $this->output->success('Repository for ' . $this->getModelNamespace(false) . ' has been created');
         $this->output->success('Remember to add App\Providers\RepositoryServiceProvider::class to providers array in your config/app.php file');
-        $this->output->success('Remember to add \'' . $this->getModelClass() . '\' => \'App\Facades\\' . $this->getModelClass() . 'Facade\' to aliases array in your config/app.php file');
     }
 }
