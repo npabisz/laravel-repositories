@@ -271,6 +271,22 @@ class MakeRepository extends Command
     /**
      * @return string
      */
+    protected function getPopulatedServiceStub()
+    {
+        return str_replace([
+            'DummyRepositoryInterfaceNamespace',
+            'DummyRepositoryInterface',
+            'DummyService',
+        ], [
+            $this->getRepositoryInterfaceNamespace(),
+            $this->getRepositoryInterface(),
+            $this->getModelClass() . 'Service',
+        ], $this->files->get(__DIR__ . '/Stubs/RepositoryService.class.stub'));
+    }
+
+    /**
+     * @return string
+     */
     protected function getRepositoryClassDirectory()
     {
         return dirname(base_path(lcfirst(str_replace('\\', '/', $this->getRepositoryClassNamespace()))));
@@ -326,6 +342,15 @@ class MakeRepository extends Command
                 : $this->getPopulatedInterfaceStub()
         );
 
+        if (!file_exists(base_path('app/Services'))){
+            $this->files->makeDirectory(base_path('app/Services'), 0755, true);
+        }
+
+        $this->files->put(
+            base_path('app/Services/' . $this->getModelClass() . 'Service.php'),
+            $this->getPopulatedServiceStub()
+        );
+
         if ($this->confirm('Generate entry in service provider?', false)) {
             if (!file_exists(base_path('app/Providers/RepositoryServiceProvider.php'))) {
                 if (!file_exists(base_path('app/Providers'))){
@@ -349,6 +374,10 @@ class MakeRepository extends Command
                 $resolver = "\t\t\$this->app->bind('" . $this->getRepositoryInterfaceNamespace() . "', function (\$app) {" . PHP_EOL;
                 $resolver .= "\t\t\treturn new \\" . $this->getRepositoryClassNamespace() . "(\\" . $this->getModelNamespace() . "::class);" . PHP_EOL;
                 $resolver .= "\t\t});" . PHP_EOL;
+
+                $resolver .= "\t\t\$this->app->bind('" . $this->getModelClass() . "Service', function(\$app) {" . PHP_EOL;
+                $resolver .= "\t\t\treturn new " . $this->getModelClass() . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
+                $resolver .= "});" . PHP_EOL;
 
                 $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
                 $serviceProviderRest = substr($serviceProvider, $methodBegins);

@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Services;
+
+use DummyRepositoryInterfaceNamespace;
+
+class DummyService
+{
+    /**
+     * @var DummyRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * @param DummyRepositoryInterface $repository
+     */
+    public function __construct(DummyRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+}
