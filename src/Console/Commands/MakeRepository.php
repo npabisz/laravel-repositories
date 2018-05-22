@@ -365,5 +365,6 @@ class MakeRepository extends Command
         }
 
         $this->output->success('Repository for ' . $this->getModelNamespace(false) . ' has been created');
+        $this->output->success('Remember to add App\Providers\RepositoryServiceProvider::class to providers array in your config/app.php file');
     }
 }
