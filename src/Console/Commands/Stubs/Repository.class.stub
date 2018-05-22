@@ -1,16 +1,10 @@
-<?php namespace DummyNamespace;
+<?php
+
+namespace DummyNamespace;
 
 use Yorki\Repositories\Repository;
-use DummyModelNamespace;
 use DummyInterfaceNamespace;
 
 class DummyClass extends Repository implements DummyInterface
 {
-    /**
-    * @return DummyModelClass
-    */
-    public function getModel()
-    {
-        return new DummyModelClass();
-    }
 }

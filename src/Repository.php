@@ -1,6 +1,5 @@
 <?php namespace Yorki\Repositories;
 
-use Yorki\Repositories\Contracts\ModelContract;
 use Yorki\Repositories\Contracts\RepositoryContract;
 use \Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Database\Eloquent\Collection;
@@ -9,12 +8,26 @@ use \Illuminate\Database\Eloquent\Model;
 abstract class Repository implements RepositoryContract
 {
     /**
-     * @return ModelContract|Model
+     * @var string
      */
-    abstract public function getModel();
+    protected $modelClass;
+    
+    public function __construct($modelClass)
+    {
+        $this->modelClass = $modelClass;
+    }
 
     /**
-     * @return ModelContract
+     * @return Model
+     */
+    public function getModel()
+    {
+        return new $this->modelClass;
+    }
+
+
+    /**
+     * @return Model
      */
     public function makeVisible($model)
     {
@@ -34,7 +47,7 @@ abstract class Repository implements RepositoryContract
     /**
      * @param array $data
      *
-     * @return ModelContract|Model
+     * @return Model
      */
     public function create(array $data)
     {
@@ -65,7 +78,7 @@ abstract class Repository implements RepositoryContract
     /**
      * @param int|string $id
      *
-     * @return ModelContract|Model|null
+     * @return Model|null
      */
     public function find($id)
     {
@@ -73,66 +86,11 @@ abstract class Repository implements RepositoryContract
     }
 
     /**
-     * @param array $where
-     * @param int $perPage
-     * @param int $page
-     * @param string $orderBy
-     * @param string $orderDirection
-     *
-     * @return Collection
-     */
-    public function get(array $where, $perPage = 20, $page = 1, $orderBy = null, $orderDirection = 'DESC')
-    {
-        $query = $this->getQuery();
-
-        foreach ($where as $key => $value) {
-            $query->where($key, $value);
-        }
-
-        if ($perPage > 0) {
-            $query->take($perPage)
-                ->offset(($page - 1) * $perPage);
-        }
-
-        if (null === $orderBy) {
-            $orderBy = $this->getModel()->getKeyName();
-        }
-
-        $query->orderBy($orderBy, $orderDirection);
-
-        return $query->get();
-    }
-
-    /**
-     * @param array $where
-     * @param string $orderBy
-     * @param string $orderDirection
-     *
-     * @return ModelContract|Model|null
-     */
-    public function getFirst(array $where, $orderBy = null, $orderDirection = 'DESC')
-    {
-        $query = $this->getQuery();
-
-        foreach ($where as $key => $value) {
-            $query->where($key, $value);
-        }
-
-        if (null === $orderBy) {
-            $orderBy = $this->getModel()->getKeyName();
-        }
-
-        $query->orderBy($orderBy, $orderDirection);
-
-        return $query->first();
-    }
-
-    /**
      * @return Collection
      */
     public function all()
     {
-        return ($this->getModel())::all();
+        return $this->getQuery()->all();
     }
 
     /**

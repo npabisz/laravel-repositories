@@ -1,9 +1,10 @@
-<?php namespace DummyNamespace;
+<?php
+
+namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
-use Yorki\Repositories\Contracts\ModelContract;
 
-class DummyClass extends Model implements ModelContract
+class DummyClass extends Model
 {
     /**
      * @var string

@@ -1,24 +1,25 @@
 <?php namespace Yorki\Repositories\Contracts;
 
+use \Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Database\Eloquent\Collection;
 
 interface RepositoryContract
 {
     /**
-     * @return ModelContract
+     * @return Model
      */
     public function getModel();
 
     /**
-     * @return ModelContract
+     * @return Model
      */
     public function makeVisible($model);
 
     /**
      * @param array $data
      *
-     * @return ModelContract
+     * @return Model
      */
     public function create(array $data);
 
@@ -36,29 +37,9 @@ interface RepositoryContract
     /**
      * @param int|string $id
      *
-     * @return ModelContract|null
+     * @return Model|null
      */
     public function find($id);
-
-    /**
-     * @param array $where
-     * @param int $perPage
-     * @param int $page
-     * @param string $orderBy
-     * @param string $orderDirection
-     *
-     * @return Collection
-     */
-    public function get(array $where, $perPage = 20, $page = 1, $orderBy = null, $orderDirection = 'DESC');
-
-    /**
-     * @param array $where
-     * @param string $orderBy
-     * @param string $orderDirection
-     *
-     * @return ModelContract|null
-     */
-    public function getFirst(array $where, $orderBy = null, $orderDirection = 'DESC');
 
     /**
      * @return Builder

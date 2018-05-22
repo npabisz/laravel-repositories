@@ -1,16 +1,10 @@
-<?php namespace DummyNamespace;
+<?php
 
-use DummyModelNamespace;
+namespace DummyNamespace;
+
 use DummyInterfaceNamespace;
 use DummyRepositoryParentNamespace;
 
 class DummyClass extends DummyRepositoryParentClass implements DummyInterface
 {
-    /**
-    * @return DummyModelClass
-    */
-    public function getModel()
-    {
-        return new DummyModelClass();
-    }
 }

@@ -199,8 +199,6 @@ class MakeRepository extends Command
     {
         return str_replace([
             'DummyNamespace',
-            'DummyModelNamespace',
-            'DummyModelClass',
             'DummyClass',
             'DummyRepositoryParentClass',
             'DummyInterfaceNamespace',
@@ -208,8 +206,6 @@ class MakeRepository extends Command
             'DummyRepositoryParentNamespace',
         ], [
             $this->getRepositoryClassNamespace(true, false),
-            $this->getModelNamespace(),
-            $this->getModelClass(),
             $this->getRepositoryClass(),
             self::REPOSITORY_PARENT_CLASS,
             $this->getRepositoryInterfaceNamespace(),
@@ -243,16 +239,12 @@ class MakeRepository extends Command
     {
         return str_replace([
             'DummyNamespace',
-            'DummyModelNamespace',
-            'DummyModelClass',
             'DummyClass',
             'DummyRepositoryParentClass',
             'DummyInterfaceNamespace',
             'DummyInterface',
         ], [
             $this->getRepositoryClassNamespace(true, false),
-            $this->getModelNamespace(),
-            $this->getModelClass(),
             $this->getRepositoryClass(),
             self::REPOSITORY_PARENT_CLASS,
             $this->getRepositoryInterfaceNamespace(),
@@ -343,16 +335,39 @@ class MakeRepository extends Command
                 : $this->getPopulatedInterfaceStub()
         );
 
-        if ($this->confirm('Generate entry in bootstrap/app.php file?', false)) {
-            $bind = '//' . $this->getModelClass() . ' repository resolver' . PHP_EOL;
-            $bind .= '$app->bind(\\' . $this->getRepositoryInterfaceNamespace() . '::class, \\' . $this->getRepositoryClassNamespace() . '::class);';
-            $appPhp = $this->files->get(base_path('bootstrap/app.php'));
-            $appPhp = str_replace('return $app;', $bind . PHP_EOL . PHP_EOL . 'return $app;', $appPhp);
+        if ($this->confirm('Generate entry in service provider?', false)) {
+            if (!file_exists(base_path('app/Providers/RepositoryServiceProvider.php'))) {
+                $this->files->makeDirectory(base_path('app/Providers'), 0755, true);
+                $this->files->put(base_path('app/Providers/RepositoryServiceProvider.php'), $this->files->get(__DIR__ . '/Stubs/RepositoryServiceProvider.class.stub'));
+            }
 
-            $this->files->put(
-                base_path('bootstrap/app.php'),
-                $appPhp
-            );
+            $serviceProvider = $this->files->get(base_path('app/Providers/RepositoryServiceProvider.php'));
+
+            if (!strpos($serviceProvider, $this->getRepositoryInterfaceNamespace())) {
+                $methodBegins = strpos($serviceProvider, 'public function register');
+
+                if ($methodBegins === false) {
+                    $this->output->error('Failed to add entry in repository service!');
+
+                    return;
+                }
+
+                $resolver = '\t\t$this->app->bind(\'' . $this->getRepositoryInterfaceNamespace() . '\', function ($app) {';
+                $resolver .= '\t\t\treturn new ' . $this->getRepositoryClassNamespace() . '(' . $this->getModelNamespace() . '::class);';
+                $resolver .= '\t\t});';
+
+                $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
+                $serviceProviderRest = substr($serviceProvider, $methodBegins);
+                $methodBody = strpos($serviceProviderRest, '{');
+                $serviceProviderTmp .= substr($serviceProviderRest, 0, $methodBody) . PHP_EOL . $resolver . PHP_EOL . substr($serviceProviderRest, $methodBody);
+
+                $this->files->put(
+                    base_path('app/Providers/RepositoryServiceProvider.php'),
+                    $serviceProviderTmp
+                );
+            } else {
+                $this->output->notice('Looks like this repository is already added in service provider');
+            }
         }
 
         $this->output->success('Repository for ' . $this->getModelNamespace(false) . ' has been created');
