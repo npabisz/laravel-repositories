@@ -298,15 +298,6 @@ class MakeRepository extends Command
             return;
         }
 
-        $modelNamespace = $this->getModelNamespace();
-        $model = new $modelNamespace;
-
-        if (!$model instanceof ModelContract) {
-            $this->output->error('Model ' . $this->getModelNamespace() . ' does not implements contract' . PHP_EOL . 'Add Yorki\\Repositories\\Contracts\\ModelContract as its interface');
-
-            return;
-        }
-
         if (class_exists($this->getRepositoryClassNamespace())) {
             $this->output->error('Repository for ' . $this->getModelClass() . ' already exists');
 
