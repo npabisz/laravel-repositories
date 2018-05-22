@@ -382,7 +382,7 @@ class MakeRepository extends Command
                 $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
                 $serviceProviderRest = substr($serviceProvider, $methodBegins);
                 $methodBody = strpos($serviceProviderRest, '{') + 1;
-                $serviceProviderTmp .= substr($serviceProviderRest, 0, $methodBody) . PHP_EOL . $resolver . PHP_EOL . substr($serviceProviderRest, $methodBody);
+                $serviceProviderTmp .= substr($serviceProviderRest, 0, $methodBody) . PHP_EOL . $resolver . substr($serviceProviderRest, $methodBody);
 
                 $this->files->put(
                     base_path('app/Providers/RepositoryServiceProvider.php'),
