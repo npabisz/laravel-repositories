@@ -26,7 +26,7 @@ class MakeRepository extends Command
      *
      * @var string
      */
-    protected $signature = 'make:repository {model} {--model-namespace=}';
+    protected $signature = 'make:repository {model} {--model-namespace=} {--namespace=}';
 
     /**
      * The console command description.
@@ -109,6 +109,10 @@ class MakeRepository extends Command
     {
         $namespace = explode('\\', $this->getModel());
 
+        if ($this->option('namespace')) {
+            $namespace = explode('\\', $this->option('namespace') . "\\" . $this->getModel());
+        }
+
         if (!$includeClass) {
             $namespace = array_slice($namespace, 0, count($namespace) - 1);
         }
@@ -120,6 +124,11 @@ class MakeRepository extends Command
 
             if ($this->option('model-namespace')) {
                 $modelNamespace = $this->option('model-namespace');
+            }
+
+            if ($this->option('namespace')) {
+                $modelNamespace = "App\\Models";
+                $namespace = str_replace("App\\Models\\", '', $namespace);//$this->option('namespace');
             }
 
             return $modelNamespace . ($namespace ? '\\' : '') . $namespace;
@@ -156,6 +165,10 @@ class MakeRepository extends Command
         $namespace = array_slice($namespace, 0, count($namespace) - 1);
         $namespace = implode('\\', $namespace);
 
+        if ($this->option('namespace')) {
+            $namespace = $this->option('namespace');
+        }
+
         if ($includeClass) {
             $namespace .= $namespace ? '\\' : '';
             $namespace .= $this->getRepositoryClass();
@@ -179,6 +192,10 @@ class MakeRepository extends Command
         $namespace = explode('\\', $this->getModelNamespace(false));
         $namespace = array_slice($namespace, 0, count($namespace) - 1);
         $namespace = implode('\\', $namespace);
+
+        if ($this->option('namespace')) {
+            $namespace = $this->option('namespace');
+        }
 
         if ($includeClass) {
             $namespace .= $namespace ? '\\' : '';
@@ -273,11 +290,15 @@ class MakeRepository extends Command
      */
     protected function getPopulatedServiceStub()
     {
+        $namespace = $this->getModelNamespace(false, false);
+
         return str_replace([
+            'DummyNamespace',
             'DummyRepositoryInterfaceNamespace',
             'DummyRepositoryInterface',
             'DummyService',
         ], [
+            "App\\Services" . ($namespace ? "\\" . $namespace : ''),
             $this->getRepositoryInterfaceNamespace(),
             $this->getRepositoryInterface(),
             $this->getModelClass() . 'Service',
@@ -361,7 +382,7 @@ class MakeRepository extends Command
         }
 
         $this->files->put(
-            base_path('app/Services/' . $this->getModelClass() . 'Service.php'),
+            base_path('app/Services/' . implode('/', explode('\\', $this->getModelNamespace(false))) . 'Service.php'),
             $this->getPopulatedServiceStub()
         );
 
@@ -385,12 +406,16 @@ class MakeRepository extends Command
                     return;
                 }
 
-                $resolver = "\t\t\$this->app->bind('" . $this->getRepositoryInterfaceNamespace() . "', function (\$app) {" . PHP_EOL;
+                $resolver = "\t\t# Auto generated repository for \"" . $this->getModelClass() . "\"" . PHP_EOL;
+                $resolver .= "\t\t\$this->app->bind(\\" . $this->getRepositoryInterfaceNamespace() . "::class, function (\$app) {" . PHP_EOL;
                 $resolver .= "\t\t\treturn new \\" . $this->getRepositoryClassNamespace() . "(\\" . $this->getModelNamespace() . "::class);" . PHP_EOL;
-                $resolver .= "\t\t});" . PHP_EOL;
+                $resolver .= "\t\t});" . PHP_EOL . PHP_EOL;
 
-                $resolver .= "\t\t\$this->app->bind('App\Services\\" . $this->getModelClass() . "Service', function (\$app) {" . PHP_EOL;
-                $resolver .= "\t\t\treturn new \App\Services\\" . $this->getModelClass() . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
+                $serviceNamespace = $this->getModelNamespace(false, false);
+
+                $resolver .= "\t\t# Auto generated service for \"" . $this->getModelClass() . "\"" . PHP_EOL;
+                $resolver .= "\t\t\$this->app->bind(\App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : '') . "Service::class, function (\$app) {" . PHP_EOL;
+                $resolver .= "\t\t\treturn new \App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : '') . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
                 $resolver .= "\t\t});" . PHP_EOL;
 
                 $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
