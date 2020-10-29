@@ -414,8 +414,8 @@ class MakeRepository extends Command
                 $serviceNamespace = $this->getModelNamespace(false, false);
 
                 $resolver .= "\t\t# Auto generated service for \"" . $this->getModelClass() . "\"" . PHP_EOL;
-                $resolver .= "\t\t\$this->app->bind(\App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : '') . "Service::class, function (\$app) {" . PHP_EOL;
-                $resolver .= "\t\t\treturn new \App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : '') . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
+                $resolver .= "\t\t\$this->app->bind(\App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : $this->getModelClass()) . "Service::class, function (\$app) {" . PHP_EOL;
+                $resolver .= "\t\t\treturn new \App\Services\\" . ($serviceNamespace ? $serviceNamespace . "\\" . $this->getModelClass() : $this->getModelClass()) . "Service(\$app->make('" . $this->getRepositoryInterfaceNamespace() . "'));" . PHP_EOL;
                 $resolver .= "\t\t});" . PHP_EOL;
 
                 $serviceProviderTmp = substr($serviceProvider, 0, $methodBegins);
