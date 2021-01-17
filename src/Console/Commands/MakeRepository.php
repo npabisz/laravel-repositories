@@ -377,8 +377,8 @@ class MakeRepository extends Command
                 : $this->getPopulatedInterfaceStub()
         );
 
-        if (!file_exists(base_path('app/Services'))){
-            $this->files->makeDirectory(base_path('app/Services'), 0755, true);
+        if (!file_exists(base_path('app/Services/' . implode('/', explode('\\', $this->getModelNamespace(false, false)))))) {
+            $this->files->makeDirectory(base_path('app/Services/' . implode('/', explode('\\', $this->getModelNamespace(false, false)))), 0755, true);
         }
 
         $this->files->put(

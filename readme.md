@@ -25,3 +25,9 @@ Repositories and more for Laravel
 `php artisan make:repository-api MyModel`
 
 `php artisan make:repository-api MyModel --model-namespace=App\Models" --api-namespace="App\Http\Controllers\Api" --api-repository-contract="App\Repositories\Contracts\MyModelRepositoryContract"`
+
+### Namespace
+
+Case scenario for model `App\Models\User\Image`, provide namespace excluding `App\Models`
+
+`php artisan make:repository --namespace=User`
