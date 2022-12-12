@@ -1,4 +1,6 @@
-<?php namespace DummyNamespace;
+<?php
+
+namespace DummyNamespace;
 
 use DummyModelNamespace;
 use App\Http\Controllers\Controller;

@@ -1,9 +1,11 @@
-<?php namespace Yorki\Repositories;
+<?php
 
-use Yorki\Repositories\Console\Commands\MakeApi;
-use Yorki\Repositories\Console\Commands\MakeMigration;
-use Yorki\Repositories\Console\Commands\MakeModel;
-use Yorki\Repositories\Console\Commands\MakeRepository;
+namespace Npabisz\Repositories;
+
+use Npabisz\Repositories\Console\Commands\MakeApi;
+use Npabisz\Repositories\Console\Commands\MakeMigration;
+use Npabisz\Repositories\Console\Commands\MakeModel;
+use Npabisz\Repositories\Console\Commands\MakeRepository;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -14,7 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('command.repository.make', function ($app) {
+        $this->app->singleton('command.repository.make2', function ($app) {
             return new MakeRepository($app['files']);
         });
 

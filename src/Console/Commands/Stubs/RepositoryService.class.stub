@@ -3,18 +3,21 @@
 namespace DummyNamespace;
 
 use DummyRepositoryInterfaceNamespace;
+use Npabisz\Repositories\Traits\HasCrud;
 
 class DummyService
 {
+    use HasCrud;
+
     /**
      * @var DummyRepositoryInterface
      */
-    protected $repository;
+    protected DummyRepositoryInterface $repository;
 
     /**
      * @param DummyRepositoryInterface $repository
      */
-    public function __construct(DummyRepositoryInterface $repository)
+    public function __construct (DummyRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

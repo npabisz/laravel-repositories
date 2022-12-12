@@ -2,8 +2,13 @@
 
 namespace DummyNamespace;
 
-use Yorki\Repositories\Contracts\RepositoryContract;
+use Npabisz\Repositories\Contracts\RepositoryContract;
+use Illuminate\Database\Eloquent\Model;
+use DummyModelNamespace\DummyModel;
 
+/**
+ * @implements Model<DummyModel>
+ */
 interface DummyInterface extends RepositoryContract
 {
 }

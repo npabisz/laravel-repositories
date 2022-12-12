@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Yorki\Repositories\Repository;
+use Npabisz\Repositories\Repository;
 use DummyInterfaceNamespace;
 
 class DummyClass extends Repository implements DummyInterface

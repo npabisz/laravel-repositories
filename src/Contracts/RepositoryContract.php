@@ -1,58 +1,68 @@
-<?php namespace Yorki\Repositories\Contracts;
+<?php
+
+namespace Npabisz\Repositories\Contracts;
 
 use \Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Database\Eloquent\Collection;
 
+/**
+ * @template TModel of Model
+ */
 interface RepositoryContract
 {
     /**
-     * @return Model
+     * @param class-string<Model<TModel>> $modelClass
      */
-    public function getModel();
+    public function __construct (string $modelClass);
 
     /**
-     * @return Model
+     * @return Model|TModel
      */
-    public function makeVisible($model);
+    public function getModel ();
+
+    /**
+     * @return Model|TModel
+     */
+    public function makeVisible ($model);
 
     /**
      * @param array $data
      *
-     * @return Model
+     * @return Model|TModel
      */
-    public function create(array $data);
+    public function create (array $data);
 
     /**
-     * @param $id
+     * @param int|string $id
      * @param array $data
      */
-    public function update($id, array $data);
+    public function update (int|string $id, array $data);
 
     /**
-     * @param $id
+     * @param int|string $id
      */
-    public function delete($id);
+    public function delete (int|string $id);
 
     /**
      * @param int|string $id
      *
-     * @return Model|null
+     * @return Model|TModel|null
      */
-    public function find($id);
+    public function find (int|string $id);
 
     /**
-     * @return Builder
+     * @return Builder|TModel
      */
-    public function getQuery();
+    public function getQuery ();
 
     /**
-     * @return Collection
+     * @return Collection<TModel>
      */
-    public function all();
+    public function all (): Collection;
 
     /**
      * @return int
      */
-    public function count();
+    public function count (): int;
 }

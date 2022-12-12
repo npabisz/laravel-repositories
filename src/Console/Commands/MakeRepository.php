@@ -1,8 +1,10 @@
-<?php namespace Yorki\Repositories\Console\Commands;
+<?php
+
+namespace Npabisz\Repositories\Console\Commands;
 
 use \Illuminate\Console\Command;
 use \Illuminate\Filesystem\Filesystem;
-use Yorki\Repositories\Contracts\ModelContract;
+use Npabisz\Repositories\Contracts\ModelContract;
 
 class MakeRepository extends Command
 {
@@ -10,9 +12,9 @@ class MakeRepository extends Command
     const REPOSITORIES_NAMESPACE = 'App\Repositories';
     const REPOSITORIES_CONTRACTS_NAMESPACE = 'App\Repositories\Contracts';
     const REPOSITORY_PARENT_CLASS = 'Repository';
-    const REPOSITORY_PARENT_CLASS_NAMESPACE = 'Yorki\Repositories';
+    const REPOSITORY_PARENT_CLASS_NAMESPACE = 'Npabisz\Repositories';
     const REPOSITORY_PARENT_INTERFACE = 'RepositoryContract';
-    const REPOSITORY_PARENT_INTERFACE_NAMESPACE = 'Yorki\Repositories\Contracts';
+    const REPOSITORY_PARENT_INTERFACE_NAMESPACE = 'Npabisz\Repositories\Contracts';
 
     /**
      * The filesystem instance.
@@ -278,10 +280,14 @@ class MakeRepository extends Command
             'DummyNamespace',
             'DummyRepositoryParentInterface',
             'DummyInterface',
+            'DummyModelNamespace',
+            'DummyModel',
         ], [
             $this->getRepositoryInterfaceNamespace(true, false),
             self::REPOSITORY_PARENT_INTERFACE,
             $this->getRepositoryInterface(),
+            $this->getModelNamespace(true, false),
+            $this->getModelClass(),
         ], $this->getStub(false));
     }
 

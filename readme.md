@@ -3,9 +3,19 @@
 Repositories and more for Laravel
 
 ## Installation
-`composer require yorki/model-repository`
+```shell
+composer require npabisz/laravel-repositories
+```
 
-## Usage
+### Creating repository
+```shell
+php artisan make:repository Example
+```
+
+```shell
+php artisan make:repository Example --model-namespace=Some\\Namespace
+```
+
 ### Creating model
 `php artisan make:repository-model MyModel`
 
@@ -15,11 +25,6 @@ Repositories and more for Laravel
 `php artisan make:repository-migration MyModel`
 
 `php artisan make:repository-migration MyModel --model-namespace=App\Models"`
-
-### Creating repository
-`php artisan make:repository MyModel`
-
-`php artisan make:repository MyModel --model-namespace=App\Models"`
 
 ### Creating API controller
 `php artisan make:repository-api MyModel`
