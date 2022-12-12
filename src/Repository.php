@@ -172,7 +172,7 @@ abstract class Repository implements RepositoryContract
 
         $items = $this->get($perPage, $currentPage, $query, $orderBy, $orderDirection);
 
-        return $this->_paginator(
+        return $this->makePaginator(
             $items,
             $count,
             $perPage,
@@ -193,7 +193,7 @@ abstract class Repository implements RepositoryContract
      *
      * @return LengthAwarePaginator
      */
-    protected function _paginator (Collection|\Illuminate\Support\Collection $items, int $total, int $perPage = 10, ?int $currentPage = null, string $pageName = 'page', array $columns = ['*']): LengthAwarePaginator
+    public function makePaginator (Collection|\Illuminate\Support\Collection $items, int $total, int $perPage = 10, ?int $currentPage = null, string $pageName = 'page', array $columns = ['*']): LengthAwarePaginator
     {
         $currentPage = $currentPage ?: Paginator::resolveCurrentPage($pageName);
         $options = [
