@@ -8,9 +8,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Npabisz\Repositories\Contracts\RepositoryContract;
-use \Illuminate\Database\Eloquent\Builder;
-use \Illuminate\Database\Eloquent\Collection;
-use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @template TModel of Model
