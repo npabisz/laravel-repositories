@@ -49,6 +49,9 @@ abstract class Repository implements RepositoryContract
         );
     }
 
+    /**
+     * @return Builder|TModel
+     */
     public function getQuery ()
     {
         return $this->getModel()->newModelQuery();
@@ -102,7 +105,7 @@ abstract class Repository implements RepositoryContract
     }
 
     /**
-     * @return Collection
+     * @return Collection<TModel>
      */
     public function all (): Collection
     {

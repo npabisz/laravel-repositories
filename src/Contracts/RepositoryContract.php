@@ -36,11 +36,15 @@ interface RepositoryContract
     /**
      * @param int|string $id
      * @param array $data
+     *
+     * @return void
      */
     public function update (int|string $id, array $data);
 
     /**
      * @param int|string $id
+     *
+     * @return void
      */
     public function delete (int|string $id);
 
