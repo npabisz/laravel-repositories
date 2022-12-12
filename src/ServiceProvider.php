@@ -16,7 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('command.repository.make2', function ($app) {
+        $this->app->singleton('command.repository.make', function ($app) {
             return new MakeRepository($app['files']);
         });
 
